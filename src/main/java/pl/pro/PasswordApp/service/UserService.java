@@ -1,26 +1,36 @@
 package pl.pro.PasswordApp.service;
 
+import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.pro.PasswordApp.entities.Password;
-import pl.pro.PasswordApp.entities.dto.PasswordDto;
+import pl.pro.PasswordApp.entities.User;
+import pl.pro.PasswordApp.entities.dto.UserDto;
 import pl.pro.PasswordApp.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.List;
+import pl.pro.PasswordApp.request.RegisterRequest;
 
 @Service
 public class UserService {
 
     UserRepository userRepository;
 
-    public List<PasswordDto> getUserPasswords(){
-        List<PasswordDto> passwordDtos = new ArrayList<>();
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-        for(Password password : userRepository.findAll()){
+    public ResponseEntity<User> register(RegisterRequest registerRequest){
+        User newUser = new User();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
+        newUser.setEmail(registerRequest.getEmail());
+        newUser.setPassword(encodedPassword);
+        newUser.setUsername(registerRequest.getUsername());
 
-        }
 
-        return userRepository.findAll();
+//        userRepository.save(newUser);
+
+        return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.OK);
     }
 
 

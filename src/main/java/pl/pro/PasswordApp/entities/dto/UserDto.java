@@ -4,14 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
-public class PasswordDto {
+public class UserDto implements Serializable {
     private Long id;
     private String username;
     private String password;
     private String email;
 
-    public PasswordDto(Long id, String username, String password, String email) {
+    public UserDto(Long id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;

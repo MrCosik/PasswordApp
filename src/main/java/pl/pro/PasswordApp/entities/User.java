@@ -1,14 +1,17 @@
 package pl.pro.PasswordApp.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "app_user")
 @Table
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id")
@@ -20,6 +23,9 @@ public class User {
     private String password;
     @Column(name = "email")
     private String email;
+    private UserRole userRole;
+    private Boolean locked;
+    private Boolean enabled;
 
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -47,9 +53,6 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -77,5 +80,34 @@ public class User {
 
     public void addPassword(Password password){
         passwords.add(password);
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }
