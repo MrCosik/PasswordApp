@@ -11,11 +11,10 @@ import java.util.Set;
 
 @Entity(name = "app_user")
 @Table
-public class User implements UserDetails {
+public class User {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "username")
     private String username;
@@ -23,9 +22,8 @@ public class User implements UserDetails {
     private String password;
     @Column(name = "email")
     private String email;
-    private UserRole userRole;
-    private Boolean locked;
-    private Boolean enabled;
+//    private UserRole userRole;
+
 
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -82,32 +80,7 @@ public class User implements UserDetails {
         passwords.add(password);
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
     }
 }

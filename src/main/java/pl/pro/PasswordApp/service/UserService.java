@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.pro.PasswordApp.entities.User;
 import pl.pro.PasswordApp.entities.dto.UserDto;
 import pl.pro.PasswordApp.repository.UserRepository;
+import pl.pro.PasswordApp.request.LoginRequest;
 import pl.pro.PasswordApp.request.RegisterRequest;
 
 @Service
@@ -27,12 +28,17 @@ public class UserService {
         newUser.setPassword(encodedPassword);
         newUser.setUsername(registerRequest.getUsername());
 
+        userRepository.save(newUser);
 
-//        userRepository.save(newUser);
+        System.out.println(newUser.getId());
 
-        return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.OK);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
+
+    public ResponseEntity<?> login(LoginRequest loginRequest){
+        return null;
+    }
 
 
 }
